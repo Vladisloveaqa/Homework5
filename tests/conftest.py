@@ -1,11 +1,15 @@
 import pytest
-from selene.support import webdriver
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selene.support.shared import browser
-from selene import be, have
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='function', autouse=True)
 def headless_chrome():
-    options = webdriver.ChromeOptions()
-    options=Options()
-    options.add_argument('--headless')
+    options = Options()
+
     options.add_argument('--window-size=1920x1080')
+
+    driver = webdriver.Chrome(options=options)
+    browser.config.driver = driver
+    yield
+    driver.quit()
