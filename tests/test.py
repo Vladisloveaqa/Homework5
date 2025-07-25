@@ -33,7 +33,7 @@ def test_vvod_formi(headless_chrome):
     browser.element('.subjects-auto-complete__multi-value__label').should(have.text('Maths'))
     browser.element('[for="hobbies-checkbox-3"]').should(be.visible).click()
     browser.element('#hobbies-checkbox-3').should(be.selected)
-    browser.element('#uploadPicture').send_keys('C:\\Users\\KagePC\\Desktop\\фотка.jpg')
+    browser.element('#uploadPicture').send_keys('C:\\Homework5\\tests\\тест.txt')
     browser.element('#currentAddress').should(be.blank).type('Санкт-Петербург , пр-т Большевиков , корпус 14')
     browser.element('#currentAddress').should(have.value('Санкт-Петербург , пр-т Большевиков , корпус 14'))
     browser.element('#state').click()
