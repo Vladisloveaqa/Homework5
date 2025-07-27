@@ -3,6 +3,8 @@ from selene import be, have
 from selenium.webdriver import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 import time
+import os
+from selene import command
 
 
 #тест проверяет наличие нужного заголовка на странице
@@ -33,13 +35,14 @@ def test_vvod_formi(headless_chrome):
     browser.element('.subjects-auto-complete__multi-value__label').should(have.text('Maths'))
     browser.element('[for="hobbies-checkbox-3"]').should(be.visible).click()
     browser.element('#hobbies-checkbox-3').should(be.selected)
-    browser.element('#uploadPicture').send_keys('C:\\Homework5\\tests\\тест.txt')
+    browser.element("#uploadPicture").send_keys(os.path.abspath("тест.txt"))
     browser.element('#currentAddress').should(be.blank).type('Санкт-Петербург , пр-т Большевиков , корпус 14')
     browser.element('#currentAddress').should(have.value('Санкт-Петербург , пр-т Большевиков , корпус 14'))
+    browser.element('#state').perform(command.js.scroll_into_view)
     browser.element('#state').click()
-    browser.element('//div[text()="Haryana"]').click()
+    browser.all('//div[contains(@id, "react-select") and text()="Haryana"]').first.should(be.visible).click()
     browser.element('#city').click()
-    browser.element('//div[text()="Karnal"]').click()
+    browser.all('//div[contains(@id, "react-select") and text()="Karnal"]').first.should(be.visible).click()
     browser.element('#submit').click()
     browser.all('.table-responsive td').should(have.exact_texts(
     'Student Name', 'Vladislav Wqw',
@@ -49,7 +52,7 @@ def test_vvod_formi(headless_chrome):
     'Date of Birth', '02 June,1999',
     'Subjects', 'Maths',
     'Hobbies', 'Music',
-    'Picture', 'фотка.jpg',
+    'Picture', 'тест.txt',
     'Address', 'Санкт-Петербург , пр-т Большевиков , корпус 14',
     'State and City', 'Haryana Karnal'
     ))
